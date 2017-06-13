@@ -1,5 +1,6 @@
 import * as _ from 'lodash';
 import * as path from 'path';
+import * as fs from 'fs-extra';
 import * as util from 'util';
 import * as ts from 'typescript';
 import { readFileSync } from 'fs-extra';
@@ -130,7 +131,17 @@ export class Dependencies {
                 types: []
             }
         };
-        let sourceFiles = this.parseFiles(this.files) || [];
+        /*let sourceFiles = this.parseFiles(this.files) || [];
+        fs.outputFile('CD.txt', util.inspect(sourceFiles, { showHidden: true, depth: 10 }), err => {
+            console.log(err) // => null
+        });*/
+
+        let sourceFiles = this.program.getSourceFiles() || [];
+        fs.outputFile('TS.txt', util.inspect(sourceFiles, { showHidden: true, depth: 10 }), err => {
+            console.log(err) // => null
+        });
+
+        //process.exit(1);
 
         sourceFiles.map((file: ts.SourceFile) => {
 
@@ -143,8 +154,7 @@ export class Dependencies {
 
                     try {
                         this.getSourceFileDecorators(file, deps);
-                    }
-                    catch (e) {
+                    } catch (e) {
                         logger.error(e, file.fileName);
                     }
                 }
@@ -179,8 +189,8 @@ export class Dependencies {
         let _parsedFiles = [];
 
         fileNames.forEach(fileName => {
-            let sourceCode = stripBom(readFileSync(fileName).toString()),
-                sourceFile = ts.createSourceFile(fileName, sourceCode, ts.ScriptTarget.ES5, true);
+            let sourceCode = readFileSync(fileName).toString(),
+                sourceFile = ts.createSourceFile(fileName, sourceCode, ts.ScriptTarget.ES5);
             _parsedFiles.push(sourceFile);
         });
 

@@ -231,13 +231,16 @@ export class Application {
           }
         );
 
-        let dependenciesData = crawler.getDependencies();
+        setTimeout(function() {
+            let dependenciesData = crawler.getDependencies();
 
-        $dependenciesEngine.init(dependenciesData);
+            $dependenciesEngine.init(dependenciesData);
 
-        this.configuration.mainData.routesLength = RouterParser.routesLength();
+            this.configuration.mainData.routesLength = RouterParser.routesLength();
 
-        this.prepareEverything();
+            this.prepareEverything();
+        }, 5000);
+
     }
 
     prepareJustAFewThings(diffCrawledData) {
