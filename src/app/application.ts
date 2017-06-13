@@ -231,7 +231,7 @@ export class Application {
           }
         );
 
-        setTimeout(function() {
+        //setTimeout(() => {
             let dependenciesData = crawler.getDependencies();
 
             $dependenciesEngine.init(dependenciesData);
@@ -239,8 +239,7 @@ export class Application {
             this.configuration.mainData.routesLength = RouterParser.routesLength();
 
             this.prepareEverything();
-        }, 5000);
-
+        //}, 5000);
     }
 
     prepareJustAFewThings(diffCrawledData) {
